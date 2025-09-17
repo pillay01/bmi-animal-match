@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BMI Animal Match</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #eee;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background: #111;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 0 12px rgba(0,255,200,0.4);
+      width: 100%;
+      max-width: 650px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #0ff;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+      color: #fff;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #0ff;
+      border-radius: 8px;
+      background: #000;
+      color: #fff;
+    }
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #0ff;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .result img {
+      max-width: 100%;
+      border-radius: 12px;
+      margin-top: 10px;
+    }
+    .certificate {
+      background: #000;
+      color: #fff;
+      padding: 20px;
+      border: 2px solid #0ff;
+      border-radius: 12px;
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🐾 BMI Animal Match 🐾</h1>
+    <label for="name">Your Name:</label>
+    <input type="text" id="name">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMI Animal Match</title>
+  <style>
+    body {
+      background-color: black;
+      color: cyan;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    .certificate {
+      margin: 20px auto;
+      padding: 20px;
+      border: 3px solid cyan;
+      border-radius: 15px;
+      background: #111;
+      color: white;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+    }
+    #animal-photo {
+      max-width: 100%;
+      height: auto;
+      margin-top: 10px;
+      border-radius: 10px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 10px;
+      background: cyan;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>🐾 Find Your Animal Twin 🐾</h1>
+  <p>Enter your details:</p>
+  
+  <input type="text" id="name" placeholder="Your name"><br><br>
+  <input type="number" id="height" placeholder="Height in cm"><br><br>
+  <input type="number" id="weight" placeholder="Weight in kg"><br><br>
+  <button onclick="calculateBMI()">Find My Animal</button>
+
+  <div id="result" class="certificate" style="display:none;">
+    <h2>🏆 Certificate of Animal Twin 🏆</h2>
+    <p id="cert-text"></p>
+    <img id="animal-photo" src="" alt="Animal photo" crossOrigin="anonymous">
+    <button onclick="downloadCert()">Download Certificate</button>
+  </div>
+
+  <!-- html2canvas for download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <script>
+    // Online animal images
+    const animals = {
+      underweight: [
+        { name: "Flamingo", img: "https://upload.wikimedia.org/wikipedia/commons/9/9c/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg" },
+        { name: "Meerkat", img: "https://upload.wikimedia.org/wikipedia/commons/3/3a/Meerkat_%28Suricata_suricatta%29_Tswalu.jpg" },
+        { name: "Lemur", img: "https://upload.wikimedia.org/wikipedia/commons/0/07/Ring-tailed_lemur_%28Lemur_catta%29.jpg" }
+      ],
+      normal: [
+        { name: "Lion", img: "https://upload.wikimedia.org/wikipedia/commons/7/73/Lion_waiting_in_Namibia.jpg" },
+        { name: "Wolf", img: "https://upload.wikimedia.org/wikipedia/commons/0/04/Canis_lupus_laying.jpg" },
+        { name: "Cheetah", img: "https://upload.wikimedia.org/wikipedia/commons/3/36/Cheetah4.jpg" }
+      ],
+      overweight: [
+        { name: "Anaconda", img: "https://upload.wikimedia.org/wikipedia/commons/4/41/Green_anaconda_%28Eunectes_murinus%29.jpg" },
+        { name: "Wild Boar", img: "https://upload.wikimedia.org/wikipedia/commons/1/12/Wild_Boar_%28Sus_scrofa%29_running.jpg" },
+        { name: "Komodo Dragon", img: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Komodo_dragon_%28Varanus_komodoensis%29_4.jpg" }
+      ],
+      obese: [
+        { name: "Elephant", img: "https://upload.wikimedia.org/wikipedia/commons/3/37/African_Bush_Elephant.jpg" },
+        { name: "Hippopotamus", img: "https://upload.wikimedia.org/wikipedia/commons/6/6e/Hippopotamus_in_South_Africa_adjusted.jpg" },
+        { name: "Whale Shark", img: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Whale_shark_Georgia_aquarium.jpg" }
+      ]
+    };
+
+    function calculateBMI() {
+      const name = document.getElementById("name").).value;
+      const height = document.getElementById("height").value / 100;
+      const weight = document.getElementById("weight").value;
+      const bmi = (weight / (height * height)).toFixed(1);
+
+      let category;
+      if (bmi < 18.5) category = "underweight";
+      else if (bmi < 25) category = "normal";
+      else if (bmi < 30) category = "overweight";
+      else category = "obese";
+
+      // pick random animal in category
+      const choice = animals[category][Math.floor(Math.random() * animals[category].length)];
+
+      // update certificate
+      document.getElementById("cert-text").innerText =
+        `${name}, with a BMI of ${bmi}, weighs as much as a ${choice.name}!`;
+
+      const img = document.getElementById("animal-photo");
+      img.src = choice.img;
+
+      document.getElementById("result").style.display = "block";
+    }
+
+    function downloadCert() {
+      const cert = document.getElementById("result");
+      html2canvas(cert, { useCORS: true }).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "certificate.png";
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    }
+  </script>
+</body>
+</html>
